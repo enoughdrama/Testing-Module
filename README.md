@@ -88,7 +88,23 @@
 
 ## Скриншоты 🖥️
 
-_[Скоро будут добавлены]_
+![image](https://github.com/user-attachments/assets/8d50c029-0d6d-4c0f-ba3c-12d6006aa6d2)
+- Админ панель (Общая статистика)
+
+![image](https://github.com/user-attachments/assets/d719d127-7abc-4bb4-94c7-f4ef30ceac1a)
+- Админ панель (Управление ключами доступа)
+
+![image](https://github.com/user-attachments/assets/ce1e189a-782f-4903-828a-210b984d6687)
+- Админ панель (Управление вопросами к тесту)
+
+![image](https://github.com/user-attachments/assets/b7009840-d376-4165-b1ea-2ba19c2b2717)
+- Админ панель (Выборочная статистика)
+
+![image](https://github.com/user-attachments/assets/ddba13de-bf38-4431-ba13-f4a0290ab39a)
+- Приложение (Окно авторизации)
+
+![image](https://github.com/user-attachments/assets/6a78ff5c-efc6-40fb-b0d4-5a44db7b76bf)
+- Приложение (Окно тестирования)
 
 ## Безопасность 🔒
 
