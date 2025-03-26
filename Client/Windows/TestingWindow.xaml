@@ -1,0 +1,147 @@
+﻿<Window x:Class="TestingApp.Windows.TestingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:TestingApp.Windows"
+        Title="Assessment Module" Height="750" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" 
+                Background="{StaticResource PrimaryBrush}" 
+                Height="80">
+            <Grid>
+                <StackPanel Orientation="Horizontal" 
+                          HorizontalAlignment="Center" 
+                          VerticalAlignment="Center">
+                    <TextBlock Text="Assessment" 
+                             FontSize="26" 
+                             FontWeight="Bold" 
+                             Foreground="White"/>
+                    <TextBlock x:Name="TxtQuestionNumber"
+                             FontSize="26" 
+                             FontWeight="SemiBold" 
+                             Foreground="White"
+                             Margin="10,0,0,0"
+                             Opacity="0"/>
+                </StackPanel>
+
+                <!-- Timer Display -->
+                <Border Background="#4D000000" 
+                        CornerRadius="16" 
+                        Padding="15,5" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Margin="0,0,30,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Time Remaining: " 
+                                 Foreground="White" 
+                                 FontSize="16" 
+                                 VerticalAlignment="Center"/>
+                        <TextBlock x:Name="TxtTimer" 
+                                 Text="60" 
+                                 Foreground="White" 
+                                 FontSize="18" 
+                                 FontWeight="Bold" 
+                                 VerticalAlignment="Center"/>
+                        <TextBlock Text=" sec" 
+                                 Foreground="White" 
+                                 FontSize="16" 
+                                 VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Question Content -->
+        <Border Grid.Row="1" 
+                Background="White" 
+                Margin="40,30,40,20"
+                CornerRadius="16"
+                BorderThickness="1"
+                BorderBrush="{StaticResource BorderBrush}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Question Text -->
+                    <Border Grid.Row="0" 
+                            Background="#F9FAFC" 
+                            BorderThickness="0,0,0,1" 
+                            BorderBrush="{StaticResource BorderBrush}"
+                            Padding="30,25">
+                        <TextBlock x:Name="TxtQuestionText" 
+                                TextWrapping="Wrap" 
+                                FontSize="22" 
+                                FontWeight="SemiBold"
+                                Opacity="0"/>
+                    </Border>
+
+                    <!-- Question Image -->
+                    <Border Grid.Row="1" 
+                           x:Name="ImgQuestionContainer"
+                           Visibility="Collapsed"
+                           Background="#F0F4FF"
+                           Padding="20">
+                        <Image x:Name="ImgQuestion" 
+                               MaxHeight="300" 
+                               Stretch="Uniform"
+                               HorizontalAlignment="Center"
+                               Margin="0,10"/>
+                    </Border>
+
+                    <!-- Answers Section -->
+                    <Border Grid.Row="2" 
+                            Padding="30,25">
+                        <StackPanel x:Name="PnlAnswers">
+                            <!-- Answer options will be added here dynamically -->
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Navigation Footer -->
+        <Border Grid.Row="2" 
+                Background="#F8F9FA" 
+                Height="100"
+                BorderThickness="0,1,0,0"
+                BorderBrush="{StaticResource BorderBrush}">
+            <Grid Margin="40,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="TxtError" 
+                           Grid.Column="0" 
+                           Foreground="{StaticResource AccentBrush}" 
+                           VerticalAlignment="Center"
+                           FontWeight="Medium"
+                           Visibility="Collapsed"/>
+
+                <StackPanel Grid.Column="1" 
+                           Orientation="Horizontal" 
+                           VerticalAlignment="Center">
+                    <!-- Previous button removed -->
+
+                    <Button x:Name="BtnNext" 
+                            Content="Next Question" 
+                            Width="200" 
+                            Height="60"
+                            Click="BtnNext_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
