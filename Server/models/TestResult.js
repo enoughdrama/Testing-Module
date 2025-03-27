@@ -41,36 +41,29 @@ const TestResultSchema = new mongoose.Schema({
     }
 });
 
-// Virtual property to calculate total questions
 TestResultSchema.virtual('totalQuestions').get(function () {
     return this.userAnswers.length;
 });
 
-// Virtual property to calculate correct answers
 TestResultSchema.virtual('correctAnswers').get(function () {
     return this.userAnswers.filter(answer => answer.isCorrect).length;
 });
 
-// Virtual property to calculate score
 TestResultSchema.virtual('score').get(function () {
     if (this.userAnswers.length === 0) return 0;
     return (this.correctAnswers / this.totalQuestions) * 100;
 });
 
-// Make virtuals available in JSON responses
 TestResultSchema.set('toJSON', { 
     virtuals: true,
     transform: function(doc, ret) {
-        // Make sure score is a number, not a Decimal128
         ret.score = parseFloat(ret.score.toFixed(1));
         return ret;
     }
 });
 
-// Make virtuals available when converting to objects
 TestResultSchema.set('toObject', { virtuals: true });
 
-// Virtual property to calculate timed out questions
 TestResultSchema.virtual('timedOutQuestions').get(function () {
     return this.userAnswers.filter(answer => answer.timedOut).length;
 });
