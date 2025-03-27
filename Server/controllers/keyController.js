@@ -7,10 +7,7 @@ const crypto = require('crypto');
 // @access  Private (Admin only)
 exports.getKeys = async (req, res, next) => {
     try {
-        // Find all users with uniqueKey (which are essentially our keys)
         const users = await User.find({}, 'uniqueKey fullName createdAt');
-
-        // Format the response
         const keys = users.map(user => ({
             uniqueKey: user.uniqueKey,
             isUsed: user.fullName && user.fullName.trim() !== '',
@@ -35,7 +32,6 @@ exports.generateKeys = async (req, res, next) => {
     try {
         const { count = 1, prefix = '' } = req.body;
 
-        // Validate count
         const keyCount = parseInt(count, 10);
         if (isNaN(keyCount) || keyCount < 1 || keyCount > 100) {
             return res.status(400).json({
@@ -44,35 +40,28 @@ exports.generateKeys = async (req, res, next) => {
             });
         }
 
-        // Generate specified number of unique keys
         const generatedKeys = [];
 
         for (let i = 0; i < keyCount; i++) {
-            // Generate a random key
             let uniqueKey;
             let isUnique = false;
 
-            // Keep trying until we get a unique key
             while (!isUnique) {
-                // Generate a random key of 6 characters
                 const randomKey = crypto.randomBytes(3).toString('hex').toUpperCase();
                 uniqueKey = prefix + randomKey;
 
-                // Check if key already exists
                 const existingUser = await User.findOne({ uniqueKey });
                 if (!existingUser) {
                     isUnique = true;
                 }
             }
 
-            // Create a new user with the generated key
-            // Set default password same as uniqueKey for simplicity
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(uniqueKey, salt);
 
             await User.create({
                 uniqueKey,
-                fullName: '', // Empty name means unused key
+                fullName: '',
                 password: hashedPassword,
                 role: 'user'
             });
@@ -96,8 +85,6 @@ exports.generateKeys = async (req, res, next) => {
 exports.deleteKey = async (req, res, next) => {
     try {
         const uniqueKey = req.params.key;
-
-        // Find the user with this key
         const user = await User.findOne({ uniqueKey });
 
         if (!user) {
@@ -107,7 +94,6 @@ exports.deleteKey = async (req, res, next) => {
             });
         }
 
-        // Check if key is already used
         if (user.fullName && user.fullName.trim() !== '') {
             return res.status(400).json({
                 success: false,
@@ -115,7 +101,6 @@ exports.deleteKey = async (req, res, next) => {
             });
         }
 
-        // Delete the user/key
         await user.remove();
 
         res.status(200).json({
