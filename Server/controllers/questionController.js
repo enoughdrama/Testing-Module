@@ -53,7 +53,6 @@ exports.getQuestion = async (req, res, next) => {
 // @access  Private (Admin only)
 exports.createQuestion = async (req, res, next) => {
     try {
-        // Validate request body
         const { text, type, imageUrl, answers } = req.body;
         
         if (!text || !type) {
@@ -63,7 +62,6 @@ exports.createQuestion = async (req, res, next) => {
             });
         }
         
-        // Validate answers if not FreeText
         if (type !== 'FreeText') {
             if (!answers || !Array.isArray(answers) || answers.length === 0) {
                 return res.status(400).json({
@@ -72,7 +70,6 @@ exports.createQuestion = async (req, res, next) => {
                 });
             }
             
-            // Validate that at least one answer is correct
             const hasCorrectAnswer = answers.some(answer => answer.isCorrect);
             if (!hasCorrectAnswer) {
                 return res.status(400).json({
@@ -107,7 +104,6 @@ exports.updateQuestion = async (req, res, next) => {
             });
         }
         
-        // Validate request body
         const { text, type, answers } = req.body;
         
         if (!text || !type) {
@@ -117,7 +113,6 @@ exports.updateQuestion = async (req, res, next) => {
             });
         }
         
-        // Validate answers if not FreeText
         if (type !== 'FreeText') {
             if (!answers || !Array.isArray(answers) || answers.length === 0) {
                 return res.status(400).json({
@@ -126,7 +121,6 @@ exports.updateQuestion = async (req, res, next) => {
                 });
             }
             
-            // Validate that at least one answer is correct
             const hasCorrectAnswer = answers.some(answer => answer.isCorrect);
             if (!hasCorrectAnswer) {
                 return res.status(400).json({
