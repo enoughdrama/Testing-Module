@@ -188,13 +188,11 @@ exports.getAllResults = async (req, res, next) => {
                 select: 'fullName uniqueKey'
             });
 
-        // Calculate scores for each result explicitly
         const resultsWithScores = results.map(result => {
             const totalQuestions = result.userAnswers.length;
             const correctAnswers = result.userAnswers.filter(a => a.isCorrect).length;
             const score = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0;
 
-            // Convert to plain object to add score property
             const resultObj = result.toObject();
             resultObj.score = parseFloat(score.toFixed(1));
 
@@ -241,22 +239,17 @@ exports.deleteResult = async (req, res, next) => {
 // @access  Private (Admin)
 exports.getStats = async (req, res, next) => {
     try {
-        // Get all test results
         const results = await TestResult.find();
 
-        // Calculate overall statistics
         const totalTests = results.length;
         const averageScore = results.reduce((sum, result) => sum + result.score, 0) / totalTests || 0;
 
-        // Count how many students passed (score >= 60%)
         const passingCount = results.filter(result => result.score >= 60).length;
         const passingRate = (passingCount / totalTests) * 100 || 0;
 
-        // Get stats on timed out questions
         const timedOutQuestions = results.reduce((sum, result) =>
             sum + result.userAnswers.filter(a => a.timedOut).length, 0);
 
-        // Get stats by score ranges
         const scoreRanges = {
             '90-100': results.filter(r => r.score >= 90 && r.score <= 100).length,
             '80-89': results.filter(r => r.score >= 80 && r.score < 90).length,
