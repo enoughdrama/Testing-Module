@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Protect routes
 exports.protect = async (req, res, next) => {
   let token;
 
@@ -11,12 +10,10 @@ exports.protect = async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
-    // Set token from Bearer token in header
     token = req.headers.authorization.split(' ')[1];
     console.log('Token found:', token);
   }
 
-  // Check if token exists
   if (!token) {
     console.log('No token found');
     return res.status(401).json({
@@ -26,7 +23,6 @@ exports.protect = async (req, res, next) => {
   }
 
   try {
-    // Verify token
     console.log('Verifying token with secret:', process.env.JWT_SECRET);
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log('Decoded token:', decoded);
@@ -52,7 +48,6 @@ exports.protect = async (req, res, next) => {
   }
 };
 
-// Grant access to specific roles
 exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
