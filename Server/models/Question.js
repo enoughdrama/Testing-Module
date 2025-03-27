@@ -35,13 +35,11 @@ const QuestionSchema = new mongoose.Schema({
     }
 });
 
-// Virtual method to get correct answers
 QuestionSchema.virtual('correctAnswers').get(function () {
     if (this.type === 'FreeText') return [];
     return this.answers.filter(answer => answer.isCorrect);
 });
 
-// Method to evaluate an answer
 QuestionSchema.methods.evaluateAnswer = function (selectedAnswerIds, freeTextAnswer) {
     switch (this.type) {
         case 'SingleChoice':
@@ -65,7 +63,6 @@ QuestionSchema.methods.evaluateAnswer = function (selectedAnswerIds, freeTextAns
     }
 };
 
-// Add text search index
 QuestionSchema.index({ text: 'text' });
 
 module.exports = mongoose.model('Question', QuestionSchema);
